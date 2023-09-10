@@ -1,0 +1,33 @@
+if ROCKCHIP_RK3568
+
+choice
+	prompt "RK3568 board select"
+
+config TARGET_MONOPI_R5S_RK3568
+	bool "MonoPi R5S Board"
+	help
+	  Ombres MonoPi R5S is a board for Rockchp RK3568.
+
+config TARGET_EVB_RK3568
+	bool "RK3568 evaluation board"
+	help
+	  RK3568 EVB is a evaluation board for Rockchp RK3568.
+
+endchoice
+
+config ROCKCHIP_BOOT_MODE_REG
+	default 0xfdc20200
+
+config ROCKCHIP_STIMER_BASE
+	default 0xfdd1c020
+
+config SYS_SOC
+	default "rk3568"
+
+config SYS_MALLOC_F_LEN
+	default 0x2000
+
+source "board/rockchip/evb_rk3568/Kconfig"
+source "board/ombres/monopi-r5s-rk3568/Kconfig"
+
+endif

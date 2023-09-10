@@ -1,0 +1,147 @@
+/*
+****************************************************************************************************************
+*= = SPDX-License-Identifier: MIT
+*= = Copyright (C) 2015 - 2029. Asytumn Technology Co., Ltd.
+*= = Carlyon W. Tung
+****************************************************************************************************************
+*/
+
+/dts-v1/;
+
+#include "rk3568.dtsi"
+#include "rk3568-u-boot.dtsi"
+#include <dt-bindings/input/input.h>
+
+/ {
+    model = "Ombres Ashy NuISG";
+    compatible = "ombres,ashy-nuisg", "rockchip,rk3568";
+};
+
+&gmac0 {
+    //
+};
+
+&gmac1 {
+    //
+};
+
+&gmac2 {
+    //
+};
+
+&gmac3 {
+    //
+};
+
+&gmac4 {
+    //
+};
+
+&mdio0 {
+    //
+};
+
+&mdio1 {
+    //
+};
+
+&mdio2 {
+    //
+};
+
+&mdio3 {
+    //
+};
+
+&mdio4 {
+    //
+};
+
+
+wireless_bluetooth: wireless-bluetooth {
+    compatible = "bluetooth-platdata";
+    clocks = <&hym8563>;
+    clock-names = "ext_clock";
+    uart_rts_gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_LOW>;
+    pinctrl-names = "default", "rts_gpio";
+    pinctrl-0 = <&uart9m0_rtsn>, <&bt_reset_gpio>, <&bt_wake_gpio>, <&bt_irq_gpio>;
+    pinctrl-1 = <&uart9_gpios>;
+    BT,reset_gpio    = <&gpio0 RK_PC6 GPIO_ACTIVE_HIGH>;
+    BT,wake_gpio     = <&gpio0 RK_PC5 GPIO_ACTIVE_HIGH>;
+    BT,wake_host_irq = <&gpio0 RK_PA0 GPIO_ACTIVE_HIGH>;
+    status = "okay";
+};
+
+
+wireless_wlan: wireless-wlan {
+    compatible = "wlan-platdata";
+    wifi_chip_type = "ap6398s";
+    pinctrl-names = "default";
+    pinctrl-0 = <&wifi_host_wake_irq>;
+    WIFI,host_wake_irq = <&gpio0 RK_PB2 GPIO_ACTIVE_HIGH>;
+    WIFI,poweren_gpio = <&gpio0 RK_PC4 GPIO_ACTIVE_HIGH>;
+    status = "okay";
+};
+
+rk_modem: rk-modem {
+    compatible="4g-modem-platdata";
+    pinctrl-names = "default";
+    pinctrl-0 = <&lte_vbat &lte_power_en &lte_reset>;
+    4G,vbat-gpio = <&gpio4 RK_PD0 GPIO_ACTIVE_HIGH>;
+    4G,power-gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_LOW>;
+    4G,reset-gpio = <&gpio4 RK_PD4 GPIO_ACTIVE_LOW>;
+    status = "okay";
+};
+
+rk-modem {
+    lte_vbat: lte-vbat {
+        rockchip,pins = <4 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>;
+    };
+
+    lte_power_en: lte-power-en {
+        rockchip,pins = <4 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
+    };
+
+    lte_reset: lte-reset {
+        rockchip,pins = <4 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;
+    };
+};
+
+&sdio {
+    max-frequency = <150000000>;
+    no-sd;
+    no-mmc;
+    bus-width = <4>;
+    disable-wp;
+    cap-sd-highspeed;
+    cap-sdio-irq;
+    keep-power-in-suspend;
+    mmc-pwrseq = <&sdio_pwrseq>;
+    non-removable;
+    pinctrl-names = "default";
+    pinctrl-0 = <&sdiom0_pins>;
+    sd-uhs-sdr104;
+    status = "okay";
+};
+
+&crypto {
+    status = "okay";
+};
+
+&uart2 {
+    status = "okay";
+};
+
+&vop {
+    assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>, <&cru DCLK_VOP2>;
+    assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL> , <&cru PLL_GPLL>;
+};
+
+
+/*
+****************************************************************************************************************
+*= = END OF FILE
+****************************************************************************************************************
+*/
+
+
